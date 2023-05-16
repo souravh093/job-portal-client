@@ -5,13 +5,27 @@ import React, { useEffect, useState } from "react";
 import "./Jobs.css";
 import { FaArrowRight } from "react-icons/fa";
 import Job from "../Job/Job";
+import { set } from "react-hook-form";
 const Jobs = () => {
   const [jobs, setJob] = useState([]);
-  const [activeTab, setActiveTab] = useState("dfsd");
+  const [activeTab, setActiveTab] = useState("allData");
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/allJobs/${activeTab}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setJob(data);
+      });
+  }, [activeTab]);
+
+  // useEffect(() => {
+  //   const result = jobs?.filter((job) => job.status === activeTab);
+  //   setJob(result);
+  // }, [activeTab, jobs]);
 
   return (
     <div>
@@ -38,7 +52,11 @@ const Jobs = () => {
           </div>
         </div>
       </div>
-      <div className="jobs-container mt-5 row"></div>
+      <div className="jobs-container mt-5 row">
+        {jobs.map((job) => (
+          <Job key={job._id} job={job} />
+        ))}
+      </div>
     </div>
   );
 };

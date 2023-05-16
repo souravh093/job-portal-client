@@ -18,7 +18,7 @@ const AddJob = () => {
 
   const onSubmit = (data) => {
     data.skills = selectedOption;
-    
+
     fetch("http://localhost:5000/postJob", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
